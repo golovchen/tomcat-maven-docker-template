@@ -4,7 +4,7 @@ COPY src /tmp/src/
 WORKDIR /tmp/
 RUN mvn package
 
-FROM openjdk:8
-COPY --from=MAVEN_TOOL_CHAIN /tmp/target/maven-docker-template-1.0.jar /myapp/
-WORKDIR /myapp
-CMD ["java", "-jar", "maven-docker-template-1.0.jar"]
+FROM tomcat:8
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/tomcat-maven-docker-template-1.0.war $CATALINA_HOME/webapps/
+COPY conf/server.xml /usr/local/tomcat/conf/server.xml
+EXPOSE 80
